@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Fragmention</title>
+<script async src="//cdnjs.cloudflare.com/ajax/libs/prefixfree/1.0.7/prefixfree.min.js"></script>
+<script async src="//cdn.rawgit.com/chapmanu/fragmentions/4e44a80756add65e25f3913d1352154a49525bdd/fragmention.min.js"></script>
+<style type="text/css">
+
+body {
+  font-family: 'Source Sans Pro', 'Helvetica Neue', Arial, sans-serif;
+}
+
+/* fragmentions */
+[fragmention] {
+  background: yellow;
+  animation: fragmention 3.5s both;
+}
+@keyframes fragmention {
+  to {
+    background: #ffffe0;
+  }
+}
+
+
+/* via tantek.com inspired by lea.verou.me/2012/12/animations-with-one-keyframe/ */
+
+</style>
+</head>
+<body>
+<p>This is some text.</p>
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
+cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
+proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+<p>As mentioned above, widgets are only supported on iOS 8 and above. Also be aware that as a new iOS feature, widgets may still be somewhat buggy. We recommend experimenting with these features early to become acquainted with them before deciding whether to integrate them into a production app.</p>
+<p>Widgets are not portions of the same app, but rather, separate processes that, together with the host application, form an app group, or container. In order for these processes to communicate with one another, the parent app and the widget must share data through this container. One of the most straightforward ways of doing this is through a special instance of NSUserDefaults that is shared between processes in the app group. When the parent app decides it is time to share new information with the widget, it can store data under a shared key in the user defaults, and notify the widget by calling the setHasContent method on the NCWidgetController class. When the widget is later displayed, the OS will notify the widget that it should update its display, by calling the widgetPerformUpdateWithCompletionHandler method, which is part of the NCWidgetProvidingProtocol.</p>
+<p>For the purposes of this example, we will be sharing arrays of message data serialized in NSDictionary objects between the host app and the widget. We will also show how to update the widget’s contents in response to a background push notification, so that the widget can remain up-to-date even when the parent application is not being displayed.</p>
+<p>Conceptually, it’s important to keep in mind that in this arrangement, the host application bears all responsibility for notifying the widget of updated content. The host application, by virtue of the Urban Airship SDK, maintains the local database of Message Center messages, and periodically fetches new messages from the server, either when the app is initially foregrounded or in response to a push notification associated with new Message Center content. In other words, the widget will only ever update its contents when the host app knows that there is new content.</p>
+<p>Because of this limitation, it’s a good idea to add background notification support to your app, and to send new messages out with push notifications featuring the content-available flag, which will cause iOS to allow the host app to handle the notification event while it is in the background, and in turn will allow the host app to update the widget. This way, you can ensure users will see as up-to-date a listing of messages as possible when they enter the Today screen.</p>
+<p>Because widgets are separate applications, they have their own app and bundle identifiers as well. In order to correctly provision your widget, you will need to set up a corresponding app identifier in the Developer portal. These will typically take the form of the host app’s bundle, appended with the widget’s product name, such as “com.mycompany.myappname.WidgetName”:</p>
+<p>Lastly, make sure that both the parent app and the widget have app groups enabled, and that the app group you created is selected in the target’s capabilities tab in XCode. This should result in the creation or update of entitlements files for the both the host and the widget, containing an entry for your new app group:</p>
+<p>Be aware that where you see placeholders such as MY_GROUP_IDENTIFIER, you must provide the appropriate identifier for your app group. An incorrect identifier will cause data sharing across NSUserDefaults to silently fail.</p>
+<p>In order to provide a more consistent user experience, we’ll also want to retrieve messages whenever a background notification comes in. This will give the parent app a chance to retrieve new messages over the network, and share the results with the widget. We’ll do the same whenever the app transitions into the background, as well.</p>
+<p>Any new Today Extension should include a TodayViewController by default. A common approach to displaying a Message Center is to list message titles in a table view, although other designs are possible. Covering the specific design and display of the widget is beyond the scope of this document, however, and thus left to the discretion of the reader.</p>
+<p>First off, we will need properties for storing cached messages, the group identifier, the group defaults, and a chosen deep link scheme:</p>
+<p>The viewDidLoad method is a good place to initialize some of these values, and trigger an initial display update:</p>
+</body>
+</html>
